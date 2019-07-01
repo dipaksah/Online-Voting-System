@@ -21,16 +21,18 @@
            if (!empty($data)) 
            {
                $emailCheck='select * from tbl_voter_register where email="'.$data['email'].'" ';
-               //$citizenshipCheck='select * from tbl_voter_register where citizenship_number="'.$data['cnumber'].'" ';
+               $citizenshipCheck='select * from tbl_voter_register where citizenship_number="'.sha1($data['cnumber']).'" ';
 
                $qry=mysqli_query($conn, $emailCheck);
-               //$qry2=mysqli_query($conn, $citizenshipCheck);
+               $qry2=mysqli_query($conn, $citizenshipCheck);
                //$count=mysqli_num_rows($qry2);
 
                if ($qry->num_rows>0) 
                  {
                      echo "email already taken";
                      die();
+                 }else if($qry2->num_rows>0){
+                     echo "citizenship_number already taken";
                  }
                
                else {
@@ -57,7 +59,6 @@
     public function login_check($data)
      {
         global $conn;
-            //echo $data['password'];
         $SelectVoter='select * from tbl_voter_register 
                       where email="'.$data['email'].'"
                       and password="'.sha1($data['password']).'" ';
@@ -71,21 +72,15 @@
        
        
     
-       public function editProfile($id)
+    public function editProfile($id)
        {
            global $conn;
            
            $sql=' select * from tbl_voter_register
                        where voter_id="'.$id.'" ';
 
-           
            $query=mysqli_query($conn,$sql);
            //$row = mysqli_fetch_assoc($query);
-          
-         /* echo "<pre>";
-           print_r($row);
-           echo "</pre>";
-           exit;*/
             return $query;
        }
        
@@ -106,7 +101,7 @@
                  citizenship_number="'.sha1($data['cnumber']).'",
                  email="'.$data['email'].'",
                  password="'.sha1($data['psw']).'"
-                 
+        
                  where voter_id="'.$id.'"
                  ';
         
@@ -116,13 +111,13 @@
        
      
        
-       public function forget($data,$id)
+       public function forget($data)
        {
            global $conn;
            $qry='update tbl_voter_register 
                  set
                  password="'.sha1($data['psw']).'"
-                 where voter_id="'.$id.'" and email="'.$data['email'].'"
+                 where email="'.$data['email'].'"
                  ';
            
            $exec=mysqli_query($conn,$qry);

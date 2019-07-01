@@ -1,3 +1,12 @@
+<?php
+
+include'../Controller/AdminController.php';
+if(empty($_SESSION['ID']))
+{
+    header('location:../View/admin_login.php');
+    die();
+}
+?>
 
 <!DOCTYPYE html>
     <html lang="en">

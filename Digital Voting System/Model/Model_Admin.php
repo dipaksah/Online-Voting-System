@@ -20,7 +20,7 @@ include'Voting_DBConnection.php';
                  password="'.sha1($data['password']).'"
                  ';
            $exeQry=mysqli_query($conn,$sql);
-           return $sql;
+           return $exeQry;
            
        }
        
@@ -29,13 +29,45 @@ include'Voting_DBConnection.php';
        {
            global $conn;
            $sql='select * from tbl_admin 
-                 where 
-                 email="'.$data['email'].'",
+                 where email="'.$data['email'].'" and
                  password="'.sha1($data['password']).'" 
                  ';
            
            $exeQry=mysqli_query($conn,$sql);
-           return $sql;
+           return $exeQry;
+       }
+       
+       
+       
+       public function forget($data)
+       {
+           global $conn;
+           $sql='update tbl_admin
+                 set 
+                 password="'.sha1($data['password']).'"
+                 where email="'.$data['email'].'"
+                 ';
+           $exeQry=mysqli_query($conn,$sql);
+           return $exeQry;
+       }
+       
+       
+       
+       public function getadmin()
+       {
+           global $conn;
+           $sql='select * from tbl_admin';
+           $exeQry=mysqli_query($conn,$sql);
+           return $exeQry;
+       }
+       
+       
+       public function delete($id)
+       {
+           global $conn;
+           $sql='delete from tbl_admin where admin_id="'.$id.'" ';
+           $exeQry=mysqli_query($conn,$sql);
+           return $exeQry;
        }
        
        

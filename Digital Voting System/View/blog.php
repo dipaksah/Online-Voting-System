@@ -1,3 +1,11 @@
+
+<?php
+
+include('../Controller/blog_controller.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,9 +19,9 @@
 
 
 
-    <script src="bootstrap-4.3.1/js/bootstrap.min.js" />
+    <script src="bootstrap-4.3.1/js/bootstrap.min.js" >
     </script>
-    <script src="bootstrap-4.3.1/js/bootstrap.js" />
+    <script src="bootstrap-4.3.1/js/bootstrap.js" >
     </script>
     <script src="jquery/jquery.min.js"></script>
 
@@ -98,9 +106,7 @@
             <div class="blog-icon">
                 <img src="image/blog-icon.jpg" alt="blog image">
             </div>
-            <p>
                 <h4>Our online voting systems let you upgrade from manually counting ballots without sacrificing the integrity of your vote.</h4>
-            </p>
             <h2>instructions</h2>
         </div>
     </div>
@@ -109,25 +115,25 @@
     <!---------display blog---->
                               
         <?php
-       include('../Model/Voting_DBConnection.php');
-       global $conn;
-       $query="select * from tbl_blog order by date desc";
-       $result=mysqli_query($conn, $query);
 
-           while($blogcontent=mysqli_fetch_Array($result))
+        $Blog=new blog_controller();
+        $result=$Blog->displayBlog();
+
+           while($blogcontent=mysqli_fetch_assoc($result))
             {?>
-               <div class="container card blogss">
+               <div class="container card blogss jumbotron">
                  <div class="row">
                         <div class="col-md-4 blogheading">
                              <h2> <?php echo $blogcontent['title']; ?></h2>
                              <h5> <?php echo $blogcontent['date']; ?> </h5>
+                             <hr class="hidden-sm hidden-md hidden-lg">
                              <?php echo "
                              <div class='blog-content'>
                              <img class='img-blog' src='uploaded-image/".$blogcontent['image']."' alt='blogcontent'>
                              </div>"?>
                         </div>
 
-                        <div class="col-md-8 blog-con card">
+                        <div class="col-md-8 blog-con jumbotron">
                             <p style="text-align:jusity;">
                             <?php echo $blogcontent['content']; ?>
                             </p>
@@ -138,7 +144,8 @@
                 <?php
             }
             ?>
-            </br>
+            <br>
+            <br>
 
 
 </body>

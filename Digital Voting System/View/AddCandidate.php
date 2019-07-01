@@ -1,14 +1,19 @@
 
    <?php
+    include_once'../Controller/party_Controller.php';
+    include_once'../Controller/addCandidate_Controller.php';
+    include'../Controller/AdminController.php';
 
-    include'../Controller/party_Controller.php';
-    
+    if(empty($_SESSION['ID']))
+    {
+        header('location:../View/admin_login.php');
+        die();
+    }
+        
      $nam=new party_controller();
      $partyName=$nam->partyOnly();
 
-//     echo "<pre>";
-//     print_r($partyName);
-//     echo "</pre>";
+
      $options="";
      while($row=mysqli_fetch_assoc($partyName))
      {
@@ -52,6 +57,26 @@
 
     <body>
 
+          
+          <?php
+        
+          if(isset($_GET['delCandiID']))
+          {
+              $delCandi=new Candi_Controller();
+              $res=$delCandi->deleteCandi($_GET['delCandiID']);
+              
+              if($res>0){
+                  $_SESSION['success']="sucessfully Deleted";
+                  header('location:AddCandidate.php');
+              }else{
+                  $_SESSION['warning']="failed to delete";
+                   header('location:AddCandidate.php');
+              }
+          }
+    
+          ?>
+
+          
            
         <div class="container-fluid">
             <div class="row">
@@ -60,7 +85,7 @@
                         <h1>Admin System</h1>
                     </div>
                     <hr class="hidden-sm hidden-lg hidden-md" />
-                    
+                   
 
                     <div class="container-fluid">
                         <div class="row">
@@ -93,7 +118,7 @@
                                         
                                         <div class="form-group">
                                         <i class="fas fa-user-tie"></i>
-                                        <lable>Cadidate Party Name:</lable>
+                                        <lable>Party Name:</lable>
                                            <select style{width:100%;}  name="party">
                                                <?php echo $options;?>
                                            </select>
@@ -103,6 +128,11 @@
                                           <input type="file" name="image" value="image"  class="custom-file-input" id="customFileLang" lang="pl-Pl">
                                           <label class="custom-file-label" for="customFileLang">Party symbol</label>
                                            </div><br><br>
+                                           
+                                           <div class="form-group custom-file photoCa">
+                                          <input type="file" name="cimage" value="image"  class="custom-file-input" id="customFileLang" lang="pl-Pl">
+                                          <label class="custom-file-label" for="customFileLang">Candidate photo</label>
+                                           </div><br><br>
 
                                         <div class="candiadd-btn">
                                             <button type="submit" name="candidateadd" class="btn btn-outline-light btn-lg btn-success" data-dismiss="modal">Add</button>
@@ -111,13 +141,21 @@
                                         </fieldset>
                                     </form>
                                      <hr class="hidden-sm hidden-lg hidden-md">
+            
                                      
-                                     
-                                      
-                                      <div class="container">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                               
+                               
+                               
+                               
+                                 <div class="container">
                                          <div class="row">
-                                          <div class="col-md-12 party_table"> 
-                                       <table style="width:100%;" font-weight="bold" class="table table-hover table-responsive"  cellspacing="6" cellpadding="5">
+                                         <div class="col-md-2"></div>
+                                          <div class="col-md-10"> 
+                                       <table style="width:100%;" font-weight="bold" class="table table-hover table-responsive text-center"  cellspacing="6" cellpadding="5">
                                     <tr>
                                         <td>
                                             <font face="Arial">ID</font>
@@ -127,6 +165,9 @@
                                         </td>
                                         <td>
                                             <font face="Arial">Party Name</font>
+                                        </td>
+                                          <td>
+                                            <font face="Arial">Party Symbol</font>
                                         </td>
                                         <td>
                                             <font face="Arial"> candidate Photo</font>
@@ -138,7 +179,6 @@
                                     </tr>
 
                                     <?php
-                                           include'../Controller/addCandidate_Controller.php';
                                        $allcan=new candi_Controller();
                                        $res=$allcan->getallcandidates(); 
                                            
@@ -148,10 +188,15 @@
                                                       <td>'.$data['id'].'</td> 
                                                       <td>'.$data['candidate_name'].'</td> 
                                                       <td>'.$data['party_name'].'</td>
-                                                      <td>'.$data['photo'].'</td>
+                                                      
+                                                       <td><img src="../View/candidate-photo/'.$data['photo'].'" height="100px" width="100px" ></td>
+                                                       
+                                                        <td><img src="../View/party_symbol/'.$data['party_sign'].'" height="100px" width="100px" ></td>
+                                                     
+                                                    
                                                      <td>'
                                                   ?>
-                                                      <a class="btn btn-danger" href="ManageCandidate.php?candidateID=<?php echo $data['id'];?>" onclick="return confirm('Are you sure you want to delete this data?');" > Delete</a>
+                                                      <a class="btn btn-danger" href="AddCandidate.php?delCandiID=<?php echo $data['id'];?>" onclick="return confirm('Are you sure you want to delete this data?');" > Delete</a>
                                                     <?php
                                             
                                                     echo '</td>                
@@ -163,20 +208,8 @@
                                   </div>
                                           </div>
                                     </div>
-                                     
-                                     
-                                     
-                                     
-                                </div>
-                            </div>
-                        </div>
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
-                                </div>
+                               
+                               
                                 
                                 </div>
                             </div>

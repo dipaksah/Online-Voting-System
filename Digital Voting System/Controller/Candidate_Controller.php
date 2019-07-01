@@ -13,7 +13,8 @@ $candi->Candidate_Register();
 $login=new Candidate_Controller;
 $login->candidate_login();
 
-
+$forget=new Candidate_Controller();
+$forget->forgetCandidate();
 
 
   class Candidate_Controller
@@ -48,7 +49,10 @@ $login->candidate_login();
         $candidate->InsertCandidate($data);	
          
          if ($candidate) {
-           echo "sucessfully inserted";
+             
+            $_SESSION['success']="Account Sucessfully created";                         
+            header("Location: ../View/candidate_login.php");
+             
          }else
          {
           echo "failed to insert";
@@ -94,14 +98,13 @@ $login->candidate_login();
             {
                 $count=$_COOKIE['attempts']+1;
                 setcookie('attempts',$count,time()+180,'/');
-                //print_r($count);
-                //echo $count;
             }
-            if(empty($row['email']) AND empty($row['password']))
+            if(empty($row['email']) && empty($row['password']))
             {   
-                echo "SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY...";
-                echo "<br />";
-                echo 3-$_COOKIE['attempts']."Attempt Left";
+//                 $_SESSION['warning']= "SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY...";
+                 header("Location: ../View/candidate_login.php");                       
+
+                $_SESSION['warning']=3-$_COOKIE['attempts']."Attempt Left SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY...";
                 
             }
         }
@@ -109,6 +112,27 @@ $login->candidate_login();
         //$this->cadId=$_SESSION['Id'];
         
     }
+      
+      
+      
+      public function forgetCandidate()
+      {
+          if(isset($_POST['candidateForgetPass']))
+          {
+              $data=array();
+              $data['password']=$_POST['password'];
+              $data['email']=$_POST['email'];
+              
+              $forg=new Candidate_Model();
+              $canFor=$forg->forget($data);
+                      
+              if($canFor>0){
+                  echo "sucessfully updated";
+              }else{
+                  echo "failed to update";
+              }
+          }
+      }
       
       
       
@@ -178,19 +202,24 @@ $login->candidate_login();
     }
       
       
-    public function getcandiUP()
+    public function getcandiUP($id)
       {
+          $newID=$id;
           $all=new Candidate_Model();
-          $allcandid=$all->editCandi();
-          return $allcandid;
-          
-         // print_r($allcandid);
+          $allcandid=$all->editCandi($newID);
+          $data=mysqli_fetch_assoc($allcandid);
+          return $data;
       }
+      
+      
+    
+      
       
   }
 
+
 //      $a=new Candidate_Controller();
-//      $a->DeleteCandidate();
+//      $a->GetCandidate();
 
 //        $b=new Candidate_Controller();
 //        $b->getcandiUP();

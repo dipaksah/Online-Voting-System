@@ -1,3 +1,16 @@
+
+<?php
+include'../Controller/AdminController.php';
+include('../Controller/blog_controller.php');
+
+if(empty($_SESSION['ID']))
+{
+    header('location:../View/admin_login.php');
+    die();
+}
+?>
+
+
 <!DOCTYPYE html>
 <html lang="en">
   <head>
@@ -31,6 +44,17 @@
 
   <body>
 
+       
+       
+       <?php 
+      
+      if(isset($_GET['BlogID']))
+         {
+              $delBlog=new blog_controller();
+              $delBlog->blogDelete($_GET['BlogID']);
+         }
+      
+      ?>
         
 
         <div class="container-fluid">
@@ -97,11 +121,50 @@
 
           </div>
         </div>
-             <div class="admin-footer"><marquee behavior="alternate" scrollamount=8><h1>Digital Voting System</h1></marquee></div>
+             <div class="admin-footer"><marquee behavior="alternate" scrollamount=8><h1>Digital Voting System</h1></marquee></div><br><br><br>
              
-          </div>
+          
+      
+       <!---------display blog---->
+                              
+        <?php
+
+        $Blog=new blog_controller();
+        $result=$Blog->displayBlog();
+
+           while($blogcontent=mysqli_fetch_assoc($result))
+            {?>
+               <div class="container adbolg card blogss jumbotron">
+                 <div class="row">
+<!--                       <div class="col-md-4"></div>-->
+                        <div class="col-md-4 blogheading">
+                             <h2> <?php echo $blogcontent['title']; ?></h2>
+                             <h5> <?php echo $blogcontent['date']; ?> </h5>
+                             <hr class="hidden-sm hidden-md hidden-lg">
+                             <?php echo "
+                             <div class='blog-content'>
+                             <img class='img-blog' src='uploaded-image/".$blogcontent['image']."' alt='blogcontent'>
+                             </div>"?>
+                        </div>
+
+                        <div class="col-md-8 blog-con jumbotron">
+                           <a href="AddBlog.php?BlogID=<?php echo $blogcontent['id']; ?>" onclick="return confirm('Are you sure you want to delete this data?');" >Delete Blog</a><br><br>
+                            <p style="text-align:jusity;">
+                            <?php echo $blogcontent['content']; ?>
+                            </p>
+                        </div>
+                   </div>    
+                </div>
+
+                <?php
+            }
+            ?>
+            <br>
+            <br>
+      </div>
         </div>
       </div>
+      
 
 
 

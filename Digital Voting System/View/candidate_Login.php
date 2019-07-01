@@ -1,9 +1,8 @@
 <?php
- //include'../Controller/Candidate_Controller.php';
-  // where attempt is more than else it is block the site for 3 times
-  //echo "aaaaaaaaaaa".$_COOKIE['attempts'];
+ include'../Controller/Candidate_Controller.php';
+//   where attempt is more than else it is block the site for 3 times
   
-  if(isset($_COOKIE['attempts']) and $_COOKIE['attempts']>=1)
+  if(isset($_COOKIE['attempts']) and $_COOKIE['attempts']>=3)
   {
 	  
 	  echo "You attempt wrong password 3 Times. So, you cannot access this site for 3 minutes!!!!!!!";
@@ -66,6 +65,7 @@
         }
     </script>
     <!------------------->
+    <?php include'../View/notification.php'; ?>
 
     <img class="login-body" src="image/background.png">
 
@@ -83,7 +83,7 @@
         </div>
 
         <input class="btn1" class="btn" type="submit" name="candidate_login" value="LOGIN">
-        <br><br><a href="#">Forgot Password??</a><br><br>
+        <br><br><a href="passReset" data-toggle="modal" data-target="#passReset">Forgot Password??</a><br><br>
         <a href="#C-register" data-toggle="modal" data-target="#C-register">Sign Up For New Account</a>
         <a href="logout.php">LOGOUT</a><div class="hr-line"></div>
          
@@ -177,6 +177,42 @@
                         </div>
 
                         <div class="register-btn">
+                            <button type="button" class="btn btn-outline-light btn-lg btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    <div class="modal fade" id="passReset">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title pass-text">Password Reset </h3>
+                    <button type="button" class="close" data-dismiss='modal'>&times;</button>
+                </div>
+                <div class="body">
+                    <form method="POST" action="../Controller/Candidate_Controller.php">
+                        <div class="form-group passReset">
+                            <i class="fas fa-envelope icon"></i>
+                            <input type="email" name="email" value="" class="input-field" class="form-control" placeholder="Enter Your Email" />
+                        </div>
+                        <div class="form-group passReset">
+                            <i class="fas fa-key icon"></i>
+                            <input type="password" name="password" placeholder="Enter New Password" class="input-field" class="form-control" />
+                        </div>
+                        <div class="form-group passReset">
+                            <i class="fas fa-key icon"></i>
+                            <input type="password" class="input-field" placeholder="Re-Type Password" name="" value="" class="form-control">
+                        </div>
+                        <div class="register-btn">
+                            <button type="submit" name="candidateForgetPass" class="btn btn-outline-light btn-lg bg-primary">Reset</button>
+                        </div>
+                        <div class="register-btn" class="modal-footer">
                             <button type="button" class="btn btn-outline-light btn-lg btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
                     </form>

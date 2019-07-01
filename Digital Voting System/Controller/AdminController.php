@@ -1,14 +1,19 @@
 <?php
-
+session_start();
+include'../Model/Model_Admin.php';
 include'../Model/Voting_DBConnection.php';
-include'../Model/Model_admin.php';
 
-$admin=new adminController();
-$admin->admin_login();
+
+$adminL=new adminController();
+$adminL->admin_login();
 
 
 $adm=new adminController();
 $adm->admin_reg();
+
+
+$forgetAdminPass=new adminController();
+$forgetAdminPass->ResetPass();
 
 class adminController
 {
@@ -19,15 +24,19 @@ class adminController
 		if(isset($_POST['login']))
 		{
             $data=array();
+            
             $data['email']=$_POST['email'];
             $data['password']=$_POST['password'];
-
-		    
-            $ad=new Model_admin();
-            $admi=$ad->adminLOG($data);
-            $count=mysqli_num_rows($admi);
+            
+            $admin=new Model_admin;
+            $login=$admin->adminLOG($data);
+            $count=mysqli_num_rows($login);
             
             if($count>0){
+                $res=mysqli_fetch_assoc($login);
+                $_SESSION['ID']=$res['admin_id'];
+                $_SESSION['mail']=$res['email'];
+                            
                 header('location:../View/admin-panel.php');
             }else{
                 echo "failed";
@@ -49,7 +58,7 @@ class adminController
             $admi=new Model_admin();
             $adminMng=$admi->adminMng($data);
             
-            if($adminMng){
+            if($adminMng){  
                 echo "successfully inserted";
             }else{
                 echo "failed ";
@@ -58,5 +67,51 @@ class adminController
     }
     
     
+    
+    public function ResetPass()
+    {
+        if(isset($_POST['btn-PassReset']))
+        {
+            $data=array();
+            $data['password']=$_POST['password'];
+            $data['email']=$_POST['email'];
+            $data['cpassword']=$_POST['cpass'];
+            
+            $forgetpass=new Model_admin();
+            $res=$forgetpass->forget($data);
+            
+            if($res>0){
+                echo"update successfully";
+            }else{
+                echo"failed to update";
+            }
+        }
+    }
+    
+    
+    
+    public function allAdmin()
+    {
+        $All=new Model_admin();
+        $getalladmin=$All->getadmin();
+        return $getalladmin;
+    }
+    
+    
+    public function deleteAdmin($id)
+    {
+        $adminID=$id;
+        $admindel=new Model_admin();
+        $delete=$admindel->delete($adminID);
+        return $delete;
+    }
+    
+    
 }
+
+//$del=new adminController();
+//$del->deleteAdmin();
+
+//$admi=new adminController();
+//$admi->allAdmin();
 ?>

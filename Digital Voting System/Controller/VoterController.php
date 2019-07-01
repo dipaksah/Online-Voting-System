@@ -1,5 +1,7 @@
 <?php
 session_start();
+include('../Model/Model_VoterNumber.php');
+
 include'../Model/Model_Voter_Register.php';
 include'../Model/Voting_DBConnection.php';
 
@@ -16,12 +18,17 @@ $loginn->voter_login();
 $inset = new Voter_Controller;
 $inset->VoterRegister();
 
-//$forgets=new Voter_Controller();
-//$forgets->forgetpass();
+$forgets=new Voter_Controller();
+$forgets->forgetpass();
+
 
 //$updatevoter=new voter_Controller();
 //$updatevoter->updateVoter();
 
+
+
+
+//print_r($_SESSION['vid']);
 
 class Voter_Controller
 {
@@ -50,10 +57,8 @@ class Voter_Controller
                         if ($voter)
                         {
                             
-                           $message = "Sucessfully Inserted";
-                           echo "<script type='text/javascript'>alert('$message');</script>";
-                            
-                           //header("Location: ../View/voter-login.php);
+                           $_SESSION['success']=" Account Sucessfully created";                         
+                           header("Location: ../View/voter-login.php");
 
                         }
                         else
@@ -104,19 +109,16 @@ class Voter_Controller
                     }
                     if (empty($row['email']) && empty($row['password']))
                     {
-                        echo "SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY...";
-					    echo "<br />";
-					    echo 3-$_COOKIE['attempt']."Attempt Left";
+//                         $_SESSION['warning']="SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY...";
+                        header("Location: ../View/voter-login.php");
+                        
+					   $_SESSION['warning']= 2-$_COOKIE['attempt']."Attempt Left SORRY... YOU ENTERD WRONG Email AND PASSWORD... PLEASE RETRY..";
                     }     
-                }
-                
-                    
-                    
-                
-            }
-            
-                   
+                }   
+            }        
         }
+    
+    
     
        
     
@@ -126,9 +128,7 @@ class Voter_Controller
             $edit=new model_voter_register();
             $ed=$edit->editProfile($id);
             $row = mysqli_fetch_assoc($ed);
-            return $row;
-        
-            
+            return $row;    
         }
     
     
@@ -137,15 +137,13 @@ class Voter_Controller
         {
             if(isset($_POST['btn-PassReset']))
                {
-                  $data=array();
+                   $data=array();
                    $data['psw']=$_POST['password'];
                    $data['email']=$_POST['email'];   
-                   
+                
                    $for=new model_voter_register();
                    $forgetpa=$for->forget($data);
                 
-                    print_r($forgetpa);
-                   
                    if($forgetpa>0){
                        echo "sucessfully updated";
                    }else{
@@ -158,25 +156,27 @@ class Voter_Controller
     
         public function updateVoter($id)
         {
-            //$id=$this->voterID;
-            
-            $data=array();
-            $data['f_name']=$_POST['f_name'];
-            $data['l_name']=$_POST['l_name'];
-            $data['addr']=$_POST['address'];
-            $data['dob']=$_POST['dob'];
-            $data['gender']=$_POST['gender'];
-            $data['cnumber']=$_POST['cnumber'];
-            $data['email']=$_POST['email'];
-            $data['psw']=$_POST['password'];
-            
-            $updVoter=new model_voter_register();
-            $update=$updVoter->updVoterQuery($data, $id); 
-            //$count=mysqli_num_rows($update);
-            
-            return $update;
-            
-        }
+               
+//            if(isset($_POST['btnUpdate']))
+//            {   
+                  
+                $data=array();
+                $data['f_name']=$_POST['f_name'];
+                $data['l_name']=$_POST['l_name'];
+                $data['addr']=$_POST['address'];
+                $data['dob']=$_POST['dob'];
+                $data['gender']=$_POST['gender'];
+                $data['cnumber']=$_POST['cnumber'];
+                $data['email']=$_POST['email'];
+                $data['psw']=$_POST['password'];
+
+                $updVoter=new model_voter_register();
+                $update=$updVoter->updVoterQuery($data, $id);
+                
+                return $update;
+                
+           }  
+        //}
     
     
     
@@ -199,17 +199,94 @@ class Voter_Controller
 
     
     
- public function voterBYID($id)
+ public function getVoterById($id)
     {
-//      $newID=$id;
+        $NewID=$id;
         $voterss=new model_voter_register();
-        $voter=$voterss->selectVoterByid($id);
+        $voter=$voterss->selectVoterByid($NewID);
         $data=mysqli_fetch_assoc($voter);
-      
-        return $data;
+     
+          return $data;
     }
     
+    
+
+
+    public function id_generate()
+        {
+             if(isset($_POST['btn-ID']))
+             {
+                 $number=$_POST['Vid'];
+                 $id=$_SESSION['id'];
+                 
+                 $gene=new Model_voterNumber();
+                 $idGen=$gene->Number($number,$id);
+                  
+                 if($idGen>0){
+                     $_SESSION['success']="Voter ID Number send sucessfully";
+                     echo"sucessfully";
+                 }else{
+                     $_SESSION['warning']="ID Aready given";
+                     header('location:../View/voterRequest.php');
+                     //echo "ID Aready given";
+                 }
+             }  
+        }
+    
+    
+    public function displayVoterID($id)
+    {
+        $num=$id;
+        $numberID=new  Model_voterNumber();
+        $vot=$numberID->dispVoterID($num);
+        $res=mysqli_fetch_assoc($vot);
+        return $res;
+    }
+    
+    
+    public function checkVoterNumber()
+    {
+        if(isset($_POST['generateId']))
+        {
+            $Vnumber=$_POST['id'];
+            
+            $num=new Model_voterNumber();
+            $vID=$num->checkId($Vnumber);
+            $res=mysqli_num_rows($vID);
+            
+            if($res>0){
+                header('location:../View/vote.php');
+            }else
+            {
+                 if(!isset($_COOKIE['attempt']))
+                    {
+                        setcookie('attempt',1,time()+180);
+                    }
+                    else
+                    {
+                        $count=$_COOKIE['attempt']+1;
+                        setcookie('attempt',$count,time()+180,'/');
+                    }
+                    if (empty($row['email']) && empty($row['password']))
+                    {
+                        echo "SORRY... YOU ENTERD WRONG Voter ID... PLEASE RETRY...";
+					    echo "<br />";
+					    echo 3-$_COOKIE['attempt']."Attempt Left";
+                    }     
+            }
+        }
+    }
+    
+    
+    
 }
+    
+$voterId=new voter_Controller();
+$voterId->checkVoterNumber();
+
+
+$gener=new Voter_Controller();
+$gener->id_generate();
 
 //$vot=new Voter_Controller();
 //$res=$vot->deleteVoter();
@@ -217,6 +294,7 @@ class Voter_Controller
 
 //$voter=new Voter_Controller();
 //$voter->voterBYID();
+
 
 
 ?>

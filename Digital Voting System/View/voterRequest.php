@@ -1,4 +1,15 @@
-<!DOCTYPYE html>
+<?php
+include'../Controller/VoterController.php';
+if(empty($_SESSION['ID']))
+{
+    header('location:../View/admin_login.php');
+    die();
+}
+?>
+
+   
+
+   <!DOCTYPYE html>
     <html lang="en">
 
     <head>
@@ -29,8 +40,9 @@
         <script language="javascript" type="text/javascript" src="http://dl.dropboxusercontent.com/u/152048609/nepali.js"></script>
 
     </head>
-
     <body>
+
+
 
 
 
@@ -40,6 +52,7 @@
                     <div class="voter-heading">
                         <h1>Voter Request</h1>
                     </div>
+                    <?php include'../View/notification.php'; ?>
                     <a href="admin-panel.php" class="btn btn-primary" text-align="center">Go To Dashboard</a><br>
                     <hr class="hidden-sm hidden-lg hidden-md" />
 
@@ -47,13 +60,9 @@
                         <div class="row">
                             <div class="col-md-12 candidate_profile_div">
 
-                                <?php
-                                include('../Model/Voting_DBConnection.php');
-                                global $conn;
-                                  $query = "SELECT * FROM tbl_voter_register";
-                                  $execQuery=mysqli_query($conn,$query);
+                                
                                   
-                                    echo '<table font-weight="bold" class="table table-dark table-hover table-responsive" border="4"  cellspacing="4" cellpadding="4"> 
+                                    <table font-weight="bold" class="table table-dark table-hover table-responsive" border="4"  cellspacing="4" cellpadding="4"> 
                                           <tr> 
                                               <td class="dt-responsove"> <font face="Arial">Voter ID</font> </td> 
                                               <td> <font face="Arial">First Name</font> </td> 
@@ -65,42 +74,37 @@
                                               <td> <font face="Arial">Email</font> </td> 
                                               <td> <font face="Arial">Password</font> </td> 
                                               <td> <font face="Arial">Give VoterID</font> </td> 
-                                          </tr>';
+                                          </tr>
+                                          
+                                    <?php
+                                        
+                                    $controller=new Voter_Controller();
+                                    $getVoter=$controller->GetVoter();
                                 
-                                        while ($row = mysqli_fetch_Array($execQuery))
+                                        while ($row = mysqli_fetch_Array($getVoter))
                                         {
-                                             $data['voter_id'] = $row['voter_id'];
-                                             $data['f_name'] = $row['first_name'];  
-                                             $data['l_name']=$row['last_name'];
-                                             $data['address']=$row['address'];
-                                             $data['dob']=$row['dob'];
-                                             $data['gender']=$row['gender'];
-                                             $data['cnumber']=$row['citizenship_number'];
-                                             $data['email']=$row['email'];
-                                             $data['password']=$row['password'];
-                                            
-
                                             echo '<tr> 
-                                                      <td>'.$data['voter_id'].'</td> 
-                                                      <td>'.$data['f_name'].'</td> 
-                                                      <td>'.$data['l_name'].'</td> 
-                                                      <td>'.$data['address'].'</td>
-                                                      <td>'.$data['dob'].'</td>
-                                                      <td>'.$data['gender'].'</td> 
-                                                      <td>'.$data['cnumber'].'</td> 
-                                                      <td>'.$data['email'].'</td> 
-                                                      <td>'.$data['password'].'</td>
-                                                      
+                                                      <td>'.$row['voter_id'].'</td> 
+                                                      <td>'.$row['first_name'].'</td> 
+                                                      <td>'.$row['last_name'].'</td> 
+                                                      <td>'.$row['address'].'</td>
+                                                      <td>'.$row['dob'].'</td>
+                                                      <td>'.$row['gender'].'</td> 
+                                                      <td>'.$row['citizenship_number'].'</td> 
+                                                      <td>'.$row['email'].'</td> 
+                                                      <td>'.$row['password'].'</td>'
+                                                  ?>     
                                                       <td>                 
-                                                             <a class="btn btn-success" data-toggle="modal" data-target="#voterID" href="#" role="button">Give VoterID</a>
-                                                         
+                                                      <a class="btn btn-success" href="voterRequest.php?VoterId=<?php echo $row['voter_id']; ?>"   >Give VoterID</a>
+                                                      
                                                       </td>
+                                               <?php       
                                                       
-                                                      
-                                                  </tr>';
+                                                  echo '</tr>';
                                         }
-                                    
                                     ?>
+                                </table>
+                                   
                             </div>
                         </div>
                     </div>
@@ -111,19 +115,35 @@
         
         
         
-        <div class="modal fade" id="voterID">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h3 class="modal-title pass-text"> Give Voter ID</h3>
-                     <button type="button" class="close" data-dismiss='modal'>&times;</button>
-                 </div>
-                 <div class="body">
-                     <form method="POST" action="">
+      
+       
+         <?php
+            $updatevoter=new voter_Controller();
+            if(isset($_GET['VoterId']))
+            {
+                $_SESSION['id']=$_GET['VoterId'];
+                $res=$updatevoter->getVoterById($_GET['VoterId']);
+            }                      
+     ?>
+      
+  
+        
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-6">
+                
+                     <form method="POST" action="../Controller/VoterController.php" onsubmit="return Validation()">
+                        
+                        <input type="text" name="id" value="<?php echo $res['voter_id']; ?>" class="input-field" class="form-control" placeholder="Enter Voter ID" disabled/>
+                        
                          <div class="form-group passReset">
                              <i class="fas fa-envelope icon"></i>
-                             <input type="number" name="id" value="ID" class="input-field" class="form-control" placeholder="Enter Voter ID" />
+                             <input type="text" name="Vid" id="vnumber" value="" class="input-field" class="form-control" placeholder="Enter Voter ID" />
                          </div>
+                         <span id="num" class="text-danger" ></span>
+                         
+                         
                          <div class="register-btn">
                              <button type="submit" name="btn-ID" class="btn btn-outline-light btn-lg bg-primary">Submit</button>
                          </div>
@@ -131,10 +151,35 @@
                              <button type="button" class="btn btn-outline-light btn-lg btn-danger" data-dismiss="modal">Cancel</button>
                          </div>
                      </form>
-                 </div>
-             </div>
-         </div>
-     </div>
+            </div>
+        </div>
+    </div>
+       
+     
+     <script type="text/javascript">
+     function Validation() {
+         
+         var id = document.getElementById('vnumber').value;
+         
+         if (id == '') {
+             document.getElementById('num').innerHTML = "** Enter voter ID";
+             return false;
+         } else if (isNaN(id)) {
+             document.getElementById('num').innerHTML = "** Only digits are allowed";
+             return false;
+         } else if (id.length != 11) {
+             document.getElementById('num').innerHTML = "**Voter Number must be 11 digits";
+             return false;
+         } else if (id != '') {
+             document.getElementById('num').innerHTML = "";
+         }
+
+
+     }
+ </script>
+     
+     
+     
 
     </body>
 

@@ -19,7 +19,7 @@ class blog_controller
             
             if(move_uploaded_file($_FILES['images']['tmp_name'],$target))
 			 {
-				echo "success";
+				echo "";
 			 }
 
 		    $data['content']=$_POST['content'];
@@ -37,6 +37,31 @@ class blog_controller
 		    }
 		}
 	}
+    
+    
+    public function displayBlog()
+    {
+        $blogs=new Model_blog();
+        $disBlog=$blogs->blogDis();
+        return $disBlog;
+    } 
+    
+    
+    public function blogDelete($id)
+    {
+        $newBlogID=$id;
+        $del=new Model_blog();
+        $blogdel=$del->delete($newBlogID);
+        return $blogdel;
+    }
+    
+    
 }
+
+//$delBlog=new blog_controller();
+//$delBlog->blogDelete();
+
+// $Blog=new blog_controller();
+//    $Blog->displayBlog();
 
 ?>

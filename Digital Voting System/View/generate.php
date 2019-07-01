@@ -1,4 +1,27 @@
-<!DOCTYPYE html>
+
+<?php
+   include'../Controller/VoterController.php';
+
+   if(empty($_SESSION['Id']))
+   {
+       header('location:voter-login.php');
+       die();
+       
+   }
+ 
+  // where attempt is more than else it is block the site for 3 times
+  //echo $_COOKIE['attempt'];
+  if(isset($_COOKIE['attempt']) and $_COOKIE['attempt']>=2)
+  {
+	  
+	  echo "You attempt wrong ID Number 3 Times. So, you cannot access this site for 3 minutes!!!!!!!";
+	  die();
+  }  
+  ?>
+
+   
+   
+   <!DOCTYPYE html>
     <html lang="en">
 
     <head>
@@ -64,12 +87,12 @@
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-6 generate-background">
-                                <form>
+                                <form method="POST" action="../Controller/VoterController.php" >
 
                                     <div class="form-group">
                                         <i class="far fa-calendar-alt"></i>
                                         <label>Enter Your voter id</label>
-                                        <input type="text" name="id" auto-complete="off" placeholder="Enter Your VOter ID" class="form-control"><br>
+                                        <input type="text" name="id" autocomplete="off" placeholder="Enter Your Voter ID" class="form-control"><br>
                                         <input type="submit" name="generateId" value="Submit" class="btn btn-primary" />
                                     </div>
 
@@ -87,47 +110,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-        <div class="modal" id="voterId">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h3 class="modal-title">Voter Id Generater</h3>
-                        <button type="submit" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <div class="modal-body voterid_generater">
-
-                        <form action="../Controller/Voter_id_generate_controller.php" method="POST">
-                            <div class="form-group id_generator_form">
-                                <i class="fas fa-list-ol"></i>
-                                <label>Enter Your Citizenship Number:</label>
-                                <input type="Number" name="cnumber" class="form-control">
-                            </div>
-
-                            <div class="form-group id_generator_form">
-                                <i class="fas fa-envelope icon"></i>
-                                <label>Email:</label>
-                                <input type="email" name="email" class="form-control">
-                            </div>
-
-                            <div class="Generate-btn">
-                                <input type="submit" name="Idgenerate" class="btn btn-outline-light btn-lg bg-primary" value="Generate ID" />
-                            </div>
-
-
-                        </form>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
 
 
     </body>

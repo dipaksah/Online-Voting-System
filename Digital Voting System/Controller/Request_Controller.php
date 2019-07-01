@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include ('../Model/Model_Request.php');
 include('../Model/Voting_DBConnection.php');
 
@@ -13,6 +13,8 @@ class Request_Controller
     {
         if(isset($_POST['SendRequest']))
         {
+            
+            
             $data=array();
             $data['f_name']=$_POST['f_name'];
             $data['l_name']=$_POST['l_name'];
@@ -25,26 +27,19 @@ class Request_Controller
             $data['cnumber']=$_POST['cnumber'];
             $target="../View/candidate-photo/".basename($_FILES['photo']['name']);
             $data['photo']=$_FILES['photo']['name'];
-            
-            if(move_uploaded_file($_FILES['photo']['tmp_name'],$target))
-			 {
-				echo "success";
-			 }
+           
 
-            $request=new Model_Request();
-            $request->insertQuery($data);
+            $request=new Model_request();
+            $res=$request->insertQuery($data);
             
-            //print_r($request);
-
-            if($request)
-            {
-                echo '<pre>';
-                print_r($request);
-                echo '</pre>';
-                
-                echo "successfully inserted";
+            if($res>0)
+            {   
+                move_uploaded_file($_FILES['photo']['tmp_name'],$target);
+                $_SESSION['success']= "successfully inserted";
+                header('location:../View/request.php');
             }else{
-                echo "failed to insert";
+                 $_SESSION['warning']= "failed to insert";
+                 header('location:../View/request.php');
             }
         }
     }

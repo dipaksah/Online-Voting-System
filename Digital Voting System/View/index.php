@@ -31,7 +31,6 @@
   </head>
 
   <body>
-
   
       <!-- ***** Navigation Bar ***** -->
       <nav class="navbar navbar-expand-xl navbar-light bg-light sticky-top" id="topbar" >
@@ -43,7 +42,7 @@
                    <div class="collapse navbar-collapse" id="ca-navbar">
 
                       <ul class="navbar-nav ml-auto" id="nav">
-                        <li class="nav-item active"><a class="nav-link" href="#home">
+                        <li class="nav-item active"><a class="nav-link" href="index.php">
                         <i class="fas fa-home"></i>Home</a></li>
 
                         <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
@@ -202,13 +201,13 @@
       <h2>VOTE</h2>
       <h5>securly and safely</h5>
       <div class="intro-system intro-font"><img src="image/votes.jpg"></div>
-      <p> <h3>Voting systems:</h3>Voting is a method by which
+      <p><h3>Voting systems:</h3>Voting is a method by which
           groups of people make decisions. These decisions could
           be political, social or public. Voting can also be used to
           choose between difficult plans of actions or to decide who is best eligible to be awarded a prize. Voting can thus bedefined as a process that allows a group of individuals to choose between a number of options. Most voting systems are based on the concept of majority rule or plurality. For example, in an election, a candidate with a plurality receives more votes than any other candidate, but does not necessarily receive the majority of the total votes cast.</p>
     </div>
   </div>
-</div></br>
+</div><br>
   <!---------------------->
 
 
@@ -480,24 +479,33 @@
         </div>
     </footer>
     <!-- ***** Footer Area Start ***** -->
-    
-    <!----cookiees---->
-    <div id="cookieconsent_container">
-            <div class="container cookie">
-                <div class="row">
-                   
-                    <div class="col-xs-12 col-sm-8 text-right">
-                        This website uses cookies to ensure you get the best experience on our website.
-                         <a href="http://cookiesandyou.com/" class="lnk-learn">Learn More</a>
-                    </div>
-                    
-                    <div class="col-xs-12 col-sm-4">
-                        <a href="index.php" id="allow_cookies" data-consent="1" data-url="index.php" class="btn-allow">AGREE</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <!-----end cookies------>
+       
+       
+               
+                <!----cookiees---->
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+                    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+                    <script>
+                    window.addEventListener("load", function(){
+                    window.cookieconsent.initialise({
+                      "palette": {
+                        "popup": {
+                          "background": "#237afc"
+                        },
+                        "button": {
+                          "background": "transparent",
+                          "text": "#fff",
+                          "border": "#fff"
+                        }
+                      },
+                      "position": "bottom-right"
+                    })});
+                    </script>
+   
+             <!-----end cookies------>
+       
+
+   
     
     <script>
     	$(window).scroll(function(){

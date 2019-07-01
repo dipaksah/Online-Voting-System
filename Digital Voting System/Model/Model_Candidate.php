@@ -70,12 +70,6 @@ include('Voting_DBConnection.php');
           
           $query=mysqli_query($conn,$SqlQuery);
           return $query;
-          
-//          echo "<pre>";
-//          print_r($query);
-//          echo "</pre>";
-//          exit;
-          
       }
     
       
@@ -120,6 +114,21 @@ include('Voting_DBConnection.php');
       
       
       
+      public function forget($data)
+      {
+          global $conn;
+          $sql='update tbl_candidate_register 
+                set
+                password="'.sha1($data['password']).'"
+                where email="'.$data['email'].'"
+                ';
+          $execQry=mysqli_query($conn,$sql);
+          return $execQry;
+      }
+      
+      
+      
+      
       public function selectCandidate()
       {
          global $conn;
@@ -138,19 +147,13 @@ include('Voting_DBConnection.php');
       }
     
       
-      public function editCandi()
+      public function editCandi($id)
       {
           global $conn;
-          $sql='select * from tbl_candidate_register';
+          $sql='select * from tbl_candidate_register where id="'.$id.'" ';
           $execQry=mysqli_query($conn,$sql);
           return $execQry;
-          
-//          echo "<pre>";
-//          print_r($execQry);
-//          echo "</pre>";
-//          exit;
-      }
-      
+      }    
 
 
   }

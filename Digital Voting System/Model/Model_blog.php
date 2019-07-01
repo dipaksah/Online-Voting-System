@@ -21,6 +21,27 @@ class Model_blog
 		               ';
 		$qry=mysqli_query($conn, $insert_query);
 	}
+    
+    
+    
+    public function blogDis()
+    {
+        global $conn;
+        $sql='select * from tbl_blog';
+        $execQry=mysqli_query($conn,$sql);
+        return $execQry;
+    }
+    
+    
+    public function delete($id)
+    {
+        global $conn;
+        $sql='delete from tbl_blog where id="'.$id.'" ';
+        $execQry=mysqli_query($conn,$sql);
+        return $execQry;
+    }
+    
+    
 }
 
 

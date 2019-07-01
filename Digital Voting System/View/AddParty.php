@@ -1,5 +1,16 @@
 
-   <?php include'../Controller/party_Controller.php'; ?>
+<?php
+include_once'../Controller/party_Controller.php';
+include'../Controller/AdminController.php';
+
+if(empty($_SESSION['ID']))
+{
+    header('location:../View/admin_login.php');
+    die();
+}
+?>
+
+?>
 
    <!DOCTYPYE html>
     <html lang="en">
@@ -84,9 +95,19 @@
                                     <form method="POST" action="../Controller/party_Controller.php" enctype="multipart/form-data">
                                       
                                        <div class="form-group voter-register">
-                                         <i class="fas fa-map-marker-alt icon"></i>
-                                         <input type="text" class="input-field" id="ad" placeholder="Enter Your Address" name="address" value="" class="form-control">
+                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<lable>Party Name:</lable>  &nbsp;&nbsp;
+                                         <input type="text" class="input-field" id="ad" placeholder="Enter Party Name" name="pname" value="" class="form-control">
                                      </div>
+                                     
+                                     <div class="form-group custom-file photoCa">
+                                          <input type="file" name="image" value="image"  class="custom-file-input" id="customFileLang" lang="pl-Pl">
+                                          <label class="custom-file-label" for="customFileLang">Party symbol</label>
+                                    </div><br><br>
+                                     
+                                     <div class="candiadd-btn">
+                                            <button type="submit" name="addparty" class="btn btn-outline-light btn-lg btn-success" data-dismiss="modal">Add</button>
+                                        </div>
+                                     
                                      
                                     </form>
                                      <hr class="hidden-sm hidden-lg hidden-md">

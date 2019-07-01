@@ -3,6 +3,11 @@
    //session_start();
   include('../Controller/Candidate_Controller.php');
 
+if(empty($_SESSION['Id']))
+{
+    header('location:candidate_Login.php');
+}
+
 ?>
    
 
@@ -53,9 +58,7 @@
                             <hr class="hidden-sm hidden-md hidden-lg" />
                         </div>
                         <a href="candidate-dashboard.php"><i class="fa fa-fw fa-home"></i>Home</a>
-                        <a href="CandidateProfile.php"><i class="fas fa-plus"></i></i>View Profile</a>
-                        <a href="candidateUpdate.php"><i class="fa fa-fw fa-wrench"></i>Update profile</a>
-                        <a href="candidateDelete.php"><i class="fa fa-fw fa-wrench"></i>Delete profile</a>
+                        <a href="CandidateProfile.php"><i class="fas fa-plus"></i>View Profile</a>
                         <a href="request.php"><i class="fa fa-fw fa-wrench"></i>Send Request for participation</a>
                         <a href="result.php"><i class="fas fa-search"></i>View Results</a>
                         <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Log out</a>
@@ -128,7 +131,7 @@
 
                                     <div class="form-group candidate-register">
                                         <i class="fas fa-list-ol icon"></i>
-                                        <input type="number" class="input-field" placeholder="Enter Your Citizenship number" name="cnumber" value="<?php echo $data['citizenship_number']; ?>" class="form-control" required>
+                                        <input type="text" class="input-field" placeholder="Enter Your Citizenship number" name="cnumber" value="<?php echo $data['citizenship_number']; ?>" class="form-control" required>
                                     </div>
 
                                     <div class="form-group candidate-register">

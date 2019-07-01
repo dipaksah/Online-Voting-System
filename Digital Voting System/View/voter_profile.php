@@ -70,6 +70,14 @@
                 $edit=new Voter_Controller();
                 $data=$edit->editVoter($id); 
                 ?>
+                
+                <?php
+                $id=$_SESSION['Id'];
+                $voterId=new voter_Controller();
+                $result=$voterId->displayVoterID($id);
+                
+                ?>
+                
 
                 <div class="col-md-10 profile_body">
                     <div class="voter-dash">
@@ -83,42 +91,51 @@
                             <div class="col-md-8 voter_profile_div">
                                
                                 <form method="POST" action="" name="voterForm">
-
+                                     
+                                     <div class="form-group voter-register">
+                                        <i class="fas fa-user-tie icon"></i><input type="text" class="input-field" placeholder="Enter First voterID" id="name" name="f_name" value="<?php echo "Your ID:  ". $result['voter_card_number']; ?>" class="form-control" readonly>
+                                    </div>
+                                     
                                     <div class="form-group voter-register">
-                                        <i class="fas fa-user-tie icon"></i><input type="text" class="input-field" placeholder="Enter First Name" id="name" name="f_name" value="<?php echo $data['first_name']; ?>" class="form-control" required>
+                                        <i class="fas fa-user-tie icon"></i><input type="text" class="input-field" placeholder="Enter First Name" id="name" name="f_name" value="<?php echo $data['first_name']; ?>" class="form-control" readonly>
                                     </div>
                                     <div class="form-group voter-register">
                                         <i class="fas fa-user icon"></i>
-                                        <input type="text" class="input-field" placeholder="Enter Last Name" name="l_name" value="<?php echo $data['last_name']; ?>" class="form-control" required>
+                                        <input type="text" class="input-field" placeholder="Enter Last Name" name="l_name" value="<?php echo $data['last_name']; ?>" class="form-control" readonly>
                                     </div>
                                     <div class="form-group voter-register">
                                         <i class="fas fa-map-marker-alt icon"></i>
-                                        <input type="text" class="input-field" value="<?php echo $data['address']; ?>" placeholder="Enter Your Address" name="address" value="" class="form-control" required>
+                                        <input type="text" class="input-field" value="<?php echo $data['address']; ?>" placeholder="Enter Your Address" name="address" value="" class="form-control" readonly>
                                     </div>
                                     <div class="form-group voter-register">
                                         <i class="far fa-calendar-alt icon"></i>
-                                        <a class="DB">DOB</a><input type="date" value="<?php echo $data['dob']; ?>" class="input-field" id="date" name="dob" class="form-control" required>
+                                        <a class="DB">DOB</a><input type="date" value="<?php echo $data['dob']; ?>" class="input-field" id="date" name="dob" class="form-control" readonly>
                                     </div>
                                     <div class="form-group voter-register gender-style">
                                         <i class="fas fa-male icon"></i>
-                                        <a class="DB">Gender</a><input class="input-field" value"<?php echo $data['gender']; ?>" class="form-control" type="radio" name="gender" checked> Male<br>
-                                        <input class="input-field" class="form-control" type="radio" name="gender" value"<?php echo $data['gender']; ?>"> Female<br>
-                                        <input class="input-field" class="form-control" type="radio" name="gender" value"<?php echo $data['gender']; ?>"> Other
+                                        <a class="DB">Gender</a>
+                                        
+                                        <input class="input-field" value="Male" <?php if($data['gender']=='Male'){ echo 'checked';} ?> class="form-control" type="radio" name="gender" readonly> Male<br>
+                                        
+                                        <input class="input-field" class="form-control" type="radio" name="gender" value="Female"  <?php if($data['gender']=='Female'){ echo 'checked';} ?> readonly> Female<br>
+                                        
+                                        <input class="input-field" class="form-control" type="radio" name="gender" value="Others" <?php if($data['gender']=='Others'){ echo 'checked';} ?>readonly > Other
+                                        
                                     </div>
 
                                     <div class="form-group voter-register">
                                         <i class="fas fa-list-ol icon"></i>
-                                        <input type="number" class="input-field" value="<?php echo $data['citizenship_number']; ?>" placeholder="Enter Your Citizenship number" name="cnumber" class="form-control" required>
+                                        <input type="text" class="input-field" value="<?php echo "Citizenship_Number:   ". $data['citizenship_number']; ?>" placeholder="Enter Your Citizenship number" name="cnumber" class="form-control" readonly>
                                     </div>
 
                                     <div class="form-group voter-register">
                                         <i class="fas fa-envelope icon"></i>
-                                        <input type="email" class="input-field" placeholder="Enter Your Email" name="email" value="<?php echo $data['email']; ?>" class="form-control">
+                                        <input type="email" class="input-field" placeholder="Enter Your Email" name="email" value="<?php echo $data['email']; ?>" class="form-control" readonly>
                                     </div>
 
                                     <div class="form-group voter-register">
                                         <i class="fas fa-key icon"></i>
-                                        <input type="password" class="input-field" placeholder="" name="password" value="<?php echo $data['password'] ?>" class="form-control" required>
+                                        <input type="password" class="input-field" placeholder="" name="password" value="<?php echo $data['password'] ?>" class="form-control" readonly>
                                     </div>
 
                                     <div class="register-btn" class="modal-footer">

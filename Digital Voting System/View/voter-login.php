@@ -1,14 +1,11 @@
  <?php
    include'../Controller/VoterController.php';
- 
-  // where attempt is more than else it is block the site for 3 times
-  //echo $_COOKIE['attempt'];
-  if(isset($_COOKIE['attempt']) and $_COOKIE['attempt']>=1)
-  {
-	  
-	  echo "You attempt wrong password 3 Times. So, you cannot access this site for 3 minutes!!!!!!!";
-	  die();
-  }  
+
+      if(isset($_COOKIE['attempt']) and $_COOKIE['attempt']>=2)
+        {
+	         echo "You attempt wrong password 3 Times. So, you cannot access this site for 3 minutes!!!!!!!";  
+              die();
+        } 
   ?>
 
  <!DOCTYPE html>
@@ -21,9 +18,9 @@
      <link type="text/css" rel="stylesheet" href="bootstrap-4.3.1/css/bootstrap.css" />
      <link type="text/css" rel="stylesheet" href="bootstrap-4.3.1/css/bootstrap.min.css" />
 
-     <script src="bootstrap-4.3.1/js/bootstrap.min.js" />
+     <script src="bootstrap-4.3.1/js/bootstrap.min.js" >
      </script>
-     <script src="bootstrap-4.3.1/js/bootstrap.js" />
+     <script src="bootstrap-4.3.1/js/bootstrap.js" >
      </script>
      <script src="jquery/jquery.min.js"></script>
      <script src="Sweet%2520Alert/sweetalert.min.js"></script>
@@ -56,9 +53,14 @@
          }
      </script>
      <!------------------->
+       <?php include'../View/notification.php'; ?>
+        
+         
      <img class="login-body" src="image/background.png">
-     <div class="login-box">
-         <img src=image/user2.png> <form method="POST" action="../Controller/VoterController.php">
+    
+     <div class="login-box">   
+         <img src=image/user2.png> 
+         <form method="POST" action="../Controller/VoterController.php">
          <div class="text-box">
              <i class="far fa-envelope"></i>
              <input type="email" placeholder="Email" name="email" value="" required>
@@ -111,7 +113,7 @@
 
                          <div class="form-group voter-register">
                              <i class="far fa-calendar-alt icon"></i>
-                             <a class="DB">DOB</a><input type="date" id="DOB" class="input-field" name="dob" value="" class="form-control">
+                             <a class="DB">DOB</a><input type="date" min="1990-12-12" max="2019-12-12" id="DOB" class="input-field" name="dob" value="" class="form-control">
                          </div>
                          <span id="dob" class="text-danger"></span>
 
@@ -160,6 +162,10 @@
              </div>
          </div>
      </div>
+     
+     
+     
+     
 
      <div class="modal fade" id="passReset">
          <div class="modal-dialog">
@@ -169,19 +175,25 @@
                      <button type="button" class="close" data-dismiss='modal'>&times;</button>
                  </div>
                  <div class="body">
-                     <form method="POST" action="../Controller/VoterController.php">
+                     <form method="POST" action="../Controller/VoterController.php" onsubmit="return ResetValidation()">
                          <div class="form-group passReset">
                              <i class="fas fa-envelope icon"></i>
-                             <input type="email" name="email" value="email" class="input-field" class="form-control" placeholder="Enter Your Email" />
+                             <input type="email" name="email" id="em" value="" class="input-field" class="form-control" placeholder="Enter Your Email" />
                          </div>
+                         <span id="mail" class="text-danger"></span>
+                         
                          <div class="form-group passReset">
                              <i class="fas fa-key icon"></i>
-                             <input type="password" name="password" placeholder="Enter New Password" class="input-field" class="form-control" />
+                             <input type="password" id="pasw" name="password" placeholder="Enter New Password" class="input-field" class="form-control" />
                          </div>
+                         <span id="passs" class="text-danger"></span>
+                         
                          <div class="form-group passReset">
                              <i class="fas fa-key icon"></i>
-                             <input type="password" class="input-field" placeholder="Re-Type Password" name="" value="" class="form-control">
+                             <input type="password" id="cpa" class="input-field" placeholder="Re-Type Password" name="cpass" value="" class="form-control">
                          </div>
+                         <span id="cpasss" class="text-danger" ></span>
+                         
                          <div class="register-btn">
                              <button type="submit" name="btn-PassReset" class="btn btn-outline-light btn-lg bg-primary">Reset</button>
                          </div>
@@ -193,6 +205,8 @@
              </div>
          </div>
      </div>
+     
+    
 
  </body>
  </html>
@@ -258,7 +272,7 @@
              document.getElementById('dob').innerHTML = " ";
          } 
          
-         else if (gen == '') {
+         if (gen == '') {
              document.getElementById('gender').innerHTML = "** please select your gender";
              return false;
          } else if (gen != '') {
@@ -318,6 +332,52 @@
              return false;
          } else if (cpasword != '') {
              document.getElementById('cpass').innerHTML = "";
+         }
+     }
+ </script>
+ 
+<script type="text/javascript">
+     function ResetValidation() {
+         
+         var email = document.getElementById('em').value;
+         var pasword = document.getElementById('pasw').value;
+         var cpasword = document.getElementById('cpa').value;
+
+         if (email == '') {
+             document.getElementById('mail').innerHTML = "** please your Email";
+             return false;
+         } else if (email.indexOf('@') <= 0) {
+             document.getElementById('mail').innerHTML = "**Invalid Email Address @";
+             return false;
+         } else if (email.charAt(email.length - 4) != '.') {
+             document.getElementById('mail').innerHTML = "**Invalid Email Address .";
+             return false;
+         } else if (email != '') {
+             document.getElementById('mail').innerHTML = " ";
+         }
+
+
+
+         if (pasword == '') {
+             document.getElementById('passs').innerHTML = "** please type new  password";
+             return false;
+         } else if ((pasword.length <= 5) || (pasword.length > 20)) {
+             document.getElementById('passs').innerHTML = "** password length required between 5 and 20 ";
+             return false;
+         } else if (pasword != '') {
+             document.getElementById('passs').innerHTML = " ";
+         }
+
+
+
+         if (cpasword == '') {
+             document.getElementById('cpasss').innerHTML = "** please re-type your password";
+             return false;
+         } else if (pasword != cpasword) {
+             document.getElementById('cpasss').innerHTML = "** Password doesnt match";
+             return false;
+         } else if (cpasword != '') {
+             document.getElementById('cpasss').innerHTML = "";
          }
      }
  </script>

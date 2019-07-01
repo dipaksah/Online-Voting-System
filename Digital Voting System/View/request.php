@@ -1,4 +1,7 @@
-<!DOCTYPYE html>
+
+   <?php session_start(); ?>
+
+   <!DOCTYPYE html>
     <html lang="en">
 
     <head>
@@ -38,8 +41,8 @@
 
         <div class="container-fluid">
             <div class="row">
-
                 <div class="col-md-12 request_body">
+                   <?php include'../View/notification.php'; ?>
                     <div class="voter-dash">
                         <h1>Candidate Request</h1>
                     </div>
@@ -82,8 +85,8 @@
 
                                     <div class="form-group gender-style">
                                         <i class="fas fa-male icon"></i>
-                                        <a class="DB">Gender</a><input type="radio" name="gender" value="male" class="form-control" class="input-field" checked>Male</br>
-                                        <input type="radio" value="female" name="gender" class="input-field" class="form-control" checked>Female</br>
+                                        <a class="DB">Gender</a><input type="radio" name="gender" value="male" class="form-control" class="input-field" checked>Male<br>
+                                        <input type="radio" value="female" name="gender" class="input-field" class="form-control" checked>Female<br>
                                         <input type="radio" name="gender" value="other" class="input-field" class="form-control" checked>Other
                                     </div>
 
@@ -123,7 +126,6 @@
 
                 </div>
             </div>
-        </div>
         </div>
 
     </body>
