@@ -90,6 +90,7 @@ class Voter_Controller
                     
                   $_SESSION['email']=$dat['email'];
                   $_SESSION['Id']=$dat['voter_id'];
+                  $_SESSION['fullname']=$dat['first_name'] . " " . $dat['last_name'];
                    
                 /*    $id=$_SESSION['Id'];
                   $this->voterID=$id;*/
@@ -224,7 +225,8 @@ class Voter_Controller
                   
                  if($idGen>0){
                      $_SESSION['success']="Voter ID Number send sucessfully";
-                     echo"sucessfully";
+                     header('location:../View/voterRequest.php');
+                     //echo"sucessfully";
                  }else{
                      $_SESSION['warning']="ID Aready given";
                      header('location:../View/voterRequest.php');
@@ -269,9 +271,10 @@ class Voter_Controller
                     }
                     if (empty($row['email']) && empty($row['password']))
                     {
-                        echo "SORRY... YOU ENTERD WRONG Voter ID... PLEASE RETRY...";
-					    echo "<br />";
-					    echo 3-$_COOKIE['attempt']."Attempt Left";
+//                        echo "SORRY... YOU ENTERD WRONG Voter ID... PLEASE RETRY...";
+//					    echo "<br />";
+					    $_SESSION['warning']= 3-$_COOKIE['attempt']."Attempt Left SORRY... YOU ENTERD WRONG Voter ID... PLEASE RETRY...";
+                        header('location:../View/generate.php');
                     }     
             }
         }
@@ -279,7 +282,34 @@ class Voter_Controller
     
     
     
+    public function changeProfile()
+    {
+        if(isset($_POST['changeProfile']))
+        {
+            $id=$_SESSION['Id'];
+            $image=$_POST['profile'];
+            
+            $pro=new model_voter_register();
+            $change=$pro->profile($image,$id);
+            return $change;
+            
+//            if($change>0){
+//                header('location:../View/voter-dashboard.php');
+//            }
+        }
+        
+    }
+    
+    
+       
+    
+    
+    
 }
+
+
+//$profile=new Voter_Controller();
+//$profile->changeProfile();
     
 $voterId=new voter_Controller();
 $voterId->checkVoterNumber();

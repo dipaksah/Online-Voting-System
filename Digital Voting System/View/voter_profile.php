@@ -52,7 +52,7 @@
                     <div class="sidebar">
                         <div class="admin-image">
                             <img src="image/user1.png" alt="admin-image">
-                            <p>Voter DashBoard</p>
+                            <p>&nbsp;<?php echo $_SESSION['fullname'];?></p>
                             <hr class="hidden-sm hidden-md hidden-lg" />
                         </div>
                         <a href="voter-dashboard.php"><i class="fa fa-fw fa-home"></i>Home</a>

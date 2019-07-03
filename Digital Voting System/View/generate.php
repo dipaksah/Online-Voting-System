@@ -64,7 +64,7 @@
                     <div class="sidebar">
                         <div class="admin-image">
                             <img src="image/user1.png" alt="admin-image">
-                            <p>User DashBoard</p>
+                            <p>&nbsp;<?php echo $_SESSION['fullname'];?></p>
                             <hr class="hidden-sm hidden-md hidden-lg" />
                         </div>
                         <a href="vote.php"><i class="fa fa-fw fa-home"></i>Home</a>
@@ -80,11 +80,12 @@
                     </div>
                     <hr class="hidden-sm hidden-lg hidden-md" /><br><br><br><br><br><br>
 
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php include'../View/notification.php'; ?>
+        
 
                     
                     <div class="container">
-                        <div class="row">
+                        <div class="row"> 
                             <div class="col-md-2"></div>
                             <div class="col-md-6 generate-background">
                                 <form method="POST" action="../Controller/VoterController.php" >

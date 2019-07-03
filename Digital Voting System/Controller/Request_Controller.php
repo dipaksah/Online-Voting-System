@@ -43,7 +43,23 @@ class Request_Controller
             }
         }
     }
+    
+    
+    
+    public function getcandidateRequest()
+    {
+        $re=new Model_request();
+        $crequest=$re->getallcandidates();
+        
+        return $crequest;
+        
+    }
+    
+    
 }
+
+//$req=new  Request_Controller();
+//$req->getcandidateRequest();
 
 
 ?>

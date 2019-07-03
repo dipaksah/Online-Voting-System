@@ -88,7 +88,7 @@
         <a href="logout.php">LOGOUT</a><div class="hr-line"></div>
          
          <div class="social-media">
-             <a href="https://www.google.com"><i class="fab fa-google">ooooogle</i></a>
+             <a href="#">Login Secure</a>
          </div>
 
         </form>

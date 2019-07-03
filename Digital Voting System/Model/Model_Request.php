@@ -35,13 +35,18 @@ class Model_request
                 ';
         
         $execQuery=mysqli_query($conn, $query);
-        
-        
-        
         return $execQuery;
-        
-        
     }
+    
+    
+    public function getallcandidates()
+    {
+        global $conn;
+        $sql='select * from tbl_request';
+        $execQuery=mysqli_query($conn,$sql);
+        return $execQuery;
+    }
+    
 }
 
 

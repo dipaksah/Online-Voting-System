@@ -85,6 +85,7 @@ $forget->forgetCandidate();
              $dat=mysqli_fetch_assoc($c_log);
              $_SESSION['email']=$dat['email'];
              $_SESSION['Id']=$dat['id'];
+             $_SESSION['fullname']=$dat['first_name'] . " " . $dat['last_name'];
             
              header('location:../View/candidate-dashboard.php');
         }

@@ -8,7 +8,6 @@ if(empty($_SESSION['ID']))
     header('location:../View/admin_login.php');
     die();
 }
-?>
 
 ?>
 
@@ -145,7 +144,10 @@ if(empty($_SESSION['ID']))
                                             echo '<tr> 
                                                       <td>'.$data['id'].'</td> 
                                                       <td>'.$data['party_name'].'</td> 
-                                                      <td>'.$data['party_symbol'].'</td>   
+                                  
+                                                      <td><img src="../View/party_symbol/'.$data['party_symbol'].'" height="100px" width="100px" ></td>
+                                                      
+                                                      
                                                      <td>'
                                                   ?>
                                                       <a class="btn btn-danger" href="AddParty.php?partyID=<?php echo $data['id'];?>" onclick="return confirm('Are you sure you want to delete this data?');" > Delete</a>

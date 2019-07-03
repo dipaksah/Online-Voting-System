@@ -52,8 +52,8 @@ if(empty($_SESSION['Id']))
                 <div class="col-md-2">
                   <div class="sidebar">
                     <div class="admin-image">
-                      <img src="image/user1.png" alt="admin-image">
-                       <p>Candidate DashBoard</p>
+                      <img src="image/team-2.jpg" alt="admin-image">
+                       <p><?php echo $_SESSION['fullname']; ?></p>
                        <hr class="hidden-sm hidden-md hidden-lg"/>
                     </div>
                       <a href="candidate-dashboard.php"><i class="fa fa-fw fa-home"></i>Home</a>
@@ -67,15 +67,9 @@ if(empty($_SESSION['Id']))
              <div class="col-md-10 content">
               <div class="voter-dash"><h1>Candidate DashBoard</h1> 
               	<hr class="hidden-sm hidden-lg hidden-md"/>
-                <img src="image/maintain.jpg" alt="candidate dashboard">
-                 
-                  <div class="candidate-block">
-			           <h1>Candidate can Manage their profile and send a request to the admin for the participation in election.</h1>
-			           <h3>Digital Voting System Candidate DashBoard</h3>
-			      </div>
-                
+                <img src="image/maintain.jpg" alt="candidate dashboard">        
                   <h2>Management</h2>
-                  <p>In this session candidate can view their profile and manage (update, delete, edit) their profile and view result of voting system.</p>
+                  <p>In this session candidate can view their profile and manage (update, delete, edit) their profile and view result of voting system.</p><br><br>
                   </div>
              </div>
             </div>

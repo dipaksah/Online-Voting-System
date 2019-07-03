@@ -156,7 +156,27 @@
             $execQry=mysqli_query($conn,$sql);
             return $execQry;
        }
-
+       
+       
+       
+       public function profile($image,$id)
+       {
+           global $conn;
+           $sql='update tbl_voterProfile
+                 set
+                 profile_image="'.$image.'" where id="'.$id.'" ';
+           $execQry=mysqli_query($conn,$sql);
+           return $execQry;
+       }
+       
+       public function imgselect($id)
+       {
+           global $conn;
+           $sql='select * from tbl_voterProfile where id="'.$id.'"';
+           $execQry=mysqli_query($conn,$sql);
+           return $execQry;
+       }
+       
        
 }
    

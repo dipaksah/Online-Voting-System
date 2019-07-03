@@ -57,7 +57,7 @@ if(empty($_SESSION['ID']))
       ?>
         
 
-        <div class="container-fluid">
+        <div class="container-fluid content">
           <div class="row">
 
                 <div class="col-md-2">
@@ -79,7 +79,7 @@ if(empty($_SESSION['ID']))
                </div>
 
              <div class="col-md-10 blog-area">
-              <div class="admin-panel"><h1>Admin DashBoard</h1></div>
+              <div class="admin-panel"><br><h1>Admin DashBoard</h1></div>
               <hr class="hidden-sm hidden-lg hidden-md"/>
          
     <!--------add blog --by admin-------->
@@ -121,9 +121,9 @@ if(empty($_SESSION['ID']))
 
           </div>
         </div>
-             <div class="admin-footer"><marquee behavior="alternate" scrollamount=8><h1>Digital Voting System</h1></marquee></div><br><br><br>
+             <div class="admin-footer"><marquee behavior="alternate" scrollamount=8><h1>Digital Voting System</h1></marquee></div>
              
-          
+          <br><br><br><br><br><br>
       
        <!---------display blog---->
                               

@@ -1,6 +1,5 @@
  <?php
-   session_start();
-   
+   include('../Controller/VoterController.php');
    if(empty($_SESSION['Id']))
    {
        header('location:voter-login.php');
@@ -53,6 +52,18 @@
 
     <body>
 
+        
+
+    <?php
+//    $profile=new Voter_Controller();
+//    $res=$profile->changeProfile();    
+//    $data=mysqli_fetch_assoc($res);
+//    $change=$data['profile_image'];
+        
+        
+    ?>
+
+
 
 
         <div class="container-fluid">
@@ -61,8 +72,16 @@
                 <div class="col-md-2">
                     <div class="sidebar">
                         <div class="admin-image">
-                            <img src="image/user1.png" alt="admin-image">
-                            <p>Voter DashBoard</p>
+                            <img src="image/team-4.jpg" alt="admin-image"  >
+                             <p>&nbsp;&nbsp;&nbsp;<?php echo $_SESSION['fullname'];?></p>
+                            
+                            <div class="pic-profile">
+                                 <form method="POST" action="../Controller/VoterController.php" enctype="multipart/form-data" >
+                                     <input type="file" name="profile" >
+                                     <button type="submit" name="changeProfile">Change Profile</button>
+                                 </form>                       
+                            </div>
+                           
                             <hr class="hidden-sm hidden-md hidden-lg" />
                         </div>
                         <a href="voter-dashboard.php"><i class="fa fa-fw fa-home"></i>Home</a>
@@ -78,16 +97,11 @@
                         <h1>Voter DashBoard</h1>
                         <hr class="hidden-sm hidden-lg hidden-md" />
                         <img src="image/maintain.jpg" alt="Voter dashboard">
-                        <div class="voter-block">
-                            <h1>Voter can Manage profile and give a vote securly.</h1>
-                            <h3>Digital Voting System Voter DashBoard</h3>
-                        </div>
                         <h2>Management</h2>
-                        <p>In this session voter can view their profile and manage (update, delete, edit) their profile and view result of voting system. in this session also a part of form include in which voter can cast vote securly.</p>
+                        <p>In this session voter can view their profile and manage (update, delete, edit) their profile and view result of voting system. in this session also a part of form include in which voter can cast vote securly.</p><br><br><br><br><br>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
 
     </body>

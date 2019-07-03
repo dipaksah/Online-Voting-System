@@ -739,9 +739,10 @@ ul li a{
 
 .content{
 	width: 100%;
-	height: 720px;
+	height: 100%;
 	background-color: #273746;
 }
+
 
 .admin-panel{
 	width: 100%;
@@ -777,7 +778,7 @@ ul li a{
 
 .voter-dash{
 	width: 100%;
-	height:60px;
+	height:100%;
 	color: white;
 	text-align: center;
 }
@@ -1131,4 +1132,8 @@ ul li a{
 
 .select select{
     width: 100%;
+}
+
+.pic-profile{
+    margin-left: 50px;
 }
